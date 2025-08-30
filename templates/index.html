@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %}Movies{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h2>Movies</h2>
+</div>
+
+{% for movie in movies %}
+<div class="box">
+    <b><a href="/movie/{{ movie.id }}">{{ movie.title }}</a></b> </br>
+    User: <a href="/user/{{ movie.user_id }}">{{ movie.username }}</a>
+</div>
+{% endfor %}
+<p>
+  <a href="/{{ page - 1 }}">&lt;&lt;</a>
+  Sivu {{ page }}/{{ page_count }}
+  <a href="/{{ page + 1 }}">&gt;&gt;</a>
+</p>
+<hr />
+{% endblock %}

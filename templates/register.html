@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}Sign up{% endblock %}
+
+{% block content %}
+<div class="header">
+  <h2>Sign up</h2>
+</div>
+<div class="box">
+  <form action="/create" method="post">
+    <p>
+      <label for="username">Username</label>: <br />
+      <input type="text" name="username" id="username" maxlength="50" required />
+    </p>
+    <p>
+      Password must contain:
+        <li>8 or more characters</li>
+        <li>digit or more</li>
+        <li>symbol or more</li>
+        <li>uppercase letter or more</li>
+        <li>lowercase letter or more</li>
+    </p>
+    <p>
+      <label for="password1">Password</label>: <br />
+      <input type="password" name="password1" id="password1" minlength="8" maxlength="50" required />
+    </p>
+    <p>
+      <label for="password2">Password again</label>: <br />
+      <input type="password" name="password2" id="password2" maxlength="50" required/>
+    </p>
+    <input type="submit" value="submit" />
+  </form>
+</div>
+<a href="/">Back</a>
+{% endblock %}

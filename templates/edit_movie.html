@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}Edit moving rating{% endblock %}
+
+{% block content %}
+<div class="header">
+  <h2>Edit movie rating</h2>
+</div>
+<div class="box">
+  <form action="/update_movie" method="post">
+    <p>
+      <label for="title">Movie:</label> <br />
+      <input type="text" name="title" id="title" value="{{ movie.title }}" maxlength="50" required />
+    </p>
+    <p>Rating:</p>
+    <p>
+      <input type="radio" name="rating" value="1" {% if movie.evaluation == 1 %}checked{% endif %} required /> *
+      <input type="radio" name="rating" value="2" {% if movie.evaluation == 2 %}checked{% endif %} required /> **
+      <input type="radio" name="rating" value="3" {% if movie.evaluation == 3 %}checked{% endif %} required /> ***
+      <input type="radio" name="rating" value="4" {% if movie.evaluation == 4 %}checked{% endif %} required /> ****
+      <input type="radio" name="rating" value="5" {% if movie.evaluation == 5 %}checked{% endif %} required /> *****
+    </p>
+    <input type="hidden" name="movie_id" value="{{ movie.id }}">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <input type="submit" value="Update" />
+  </form>
+</div>
+<p>
+  <a href="/movie/{{ movie.id }}">Back</a>
+</p>
+{% endblock %}

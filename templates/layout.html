@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="/static/main.css">
+</head>
+
+<body>
+  <div class="header">
+    <h1>Movies</h1>
+  </div>
+  <div class="nav">
+    <nav>
+      <ul>
+        <li><a class="nav_box" href="/">Home</a></li>
+        {% if session.user_id %}
+        <li><a class="nav_box" href="/new_movie">Add a movie</a></li>
+        <li><a class="nav_box" href="/logout">Log out</a></li>
+        {% else %}
+        <li><a class="nav_box" href="/login">Log in</a></li>
+        <li><a class="nav_box" href="/register">Sign up</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+  {% if session.user_id %}
+  <p>
+    Logged in as <a href="/user/{{ session.user_id }}">{{ session.username }}</a>
+  </p>
+  {% endif %}
+  
+  {% for message in get_flashed_messages() %}
+  <div class="info">
+    {{ message }}
+  </div>
+  {% endfor %}
+
+  {% block content %} {% endblock %}
+
+</body>
+
+</html>

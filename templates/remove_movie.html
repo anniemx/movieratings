@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}Delete a movie{% endblock %}
+
+{% block content %}
+<div class="header">
+  <h2>Delete a movie</h2>
+</div>
+<div class="box">
+  <p>Movie: <a href="/movie/{{ movie.id }}">{{ movie.title }}</a></p>
+  <p>Sure?</p>
+  <form action="/remove_movie/{{ movie.id }}" method="post">
+    <input type="submit" name="back" value="Back" />
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <input type="submit" name="remove" value="Delete" />
+  </form>
+</div>
+{% endblock %}

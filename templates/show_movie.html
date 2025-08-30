@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ movie.title }}{% endblock %}
+
+{% block content %}
+<div class="box">
+  <b>{{ movie.title  | show_lines }}</b>
+  <p>
+    <b>Rating:</b> {{ movie.rating }}
+  </p>
+  <p>
+    <b>User:</b> <a href="/user/{{ movie.user_id }}">{{ movie.username }}</a>
+  </p>
+    {% if session.user_id == movie.user_id %}
+  <p>
+    <a href="/edit_movie/{{ movie.id }}">Edit</a>
+    <a href="/remove_movie/{{ movie.id }}">Delete</a>
+  </p>
+  {% endif %}
+</div>
+{% endblock %}
