@@ -30,7 +30,7 @@ def check_csrf():
 @app.template_filter()
 def show_lines(content):
     #Here we sanitize the content. Escape replaces special characters and wraps safe for html
-    #The function will save line breaks as well
+    #The function will still show line breaks
     content = str(markupsafe.escape(content))
     content = content.replace("\n", "<br />")
     return markupsafe.Markup(content)
@@ -69,14 +69,16 @@ def show_movie(movie_id):
 
 @app.route("/new_movie")
 def new_movie():
-    require_login() #only logged in users can add information
+    #require_login() only logged in users can add information
     return render_template("new_movie.html")
 
 @app.route("/create_movie", methods=["POST"])
 def create_movie():
-    require_login() #only logged in users can add information
-    check_csrf() #check the csrf token
-    title = str(markupsafe.escape(request.form["title"])) # here we sanitize the content before posting to database
+    #require_login() //only logged in users can add information
+    #check_csrf() //check the csrf token
+    title = request.form["title"] #this is the unsafe way
+    #here we sanitize the content before posting to database
+    #title = str(markupsafe.escape(request.form["title"])) 
     if not title or len(title) > 100: 
         abort(403)
     user_id = session["user_id"]
@@ -88,30 +90,33 @@ def create_movie():
 
 @app.route("/edit_movie/<int:movie_id>")
 def edit_movie(movie_id):
-    require_login() #only logged in users can edit information
+    #require_login() //only logged in users can edit information
     movie = movies.get_movie(movie_id)
     if not movie:
         abort(404)
-    if movie["user_id"] != session["user_id"]: #here we check the user can only edit their own input --> authorization
-        abort(403)
+    #if movie["user_id"] != session["user_id"]: #here we check the user can only edit their own input --> authorization
+    #    abort(403)
 
     return render_template("edit_movie.html", movie=movie)
 
 @app.route("/update_movie", methods=["POST"])
 def update_movie():
-    check_csrf() #csrf token check
+    #check_csrf()
     movie_id = request.form["movie_id"]
     movie = movies.get_movie(movie_id)
     if not movie: #checking that movie exists
         abort(404)
-    if movie["user_id"] != session["user_id"]:
-        abort(403)
-    title = str(markupsafe.escape(request.form["title"])) # here we sanitize the content before posting to database
+    #this makes sure a user is authorized to change the movie in question
+    #if movie["user_id"] != session["user_id"]:
+    #    abort(403)
+    title = request.form["title"] #this is the unsafe way
+    #here we sanitize the content before posting to database
+    #title = str(markupsafe.escape(request.form["title"])) 
     if not title or len(title) > 100: #limit the input
         abort(403)
     rating = request.form["rating"]
-    if not rating:
-        abort(403)
+    #if not rating:
+    #    abort(403)
     movies.update_movie(movie_id, title, rating)
     return redirect("/movie/" + str(movie_id))
 
@@ -146,19 +151,19 @@ def create():
         return redirect("/register")
     password1 = request.form["password1"]
     
-    #here we check that the password is strong enough
     if not password1 or len(password1) < 8 or len(password1) > 50:
         flash("ERROR: password does not fill the requirements")
         return redirect("/register")
     
-    digit = re.search(r"\d", password1) is None
-    uppercase = re.search(r"[A-Z]", password1) is None
-    lowercase = re.search(r"[a-z]", password1) is None
-    symbol = re.search(r"[ !#$%&'()*+,-./\[]^_`{}~"+r'"]', password1) is None
+    #here we check that the password is strong enough
+    #digit = re.search(r"\d", password1) is None
+    #uppercase = re.search(r"[A-Z]", password1) is None
+    #lowercase = re.search(r"[a-z]", password1) is None
+    #symbol = re.search(r"[ !#$%&'()*+,-./\[]^_`{}~"+r'"]', password1) is None
 
-    if digit or uppercase or lowercase or symbol:
-        flash("ERROR: password does not fill the requirements")
-        return redirect("/register")
+    #if digit or uppercase or lowercase or symbol:
+    #    flash("ERROR: password does not fill the requirements")
+    #    return redirect("/register")
 
     password2 = request.form["password2"]
     if password1 != password2:
@@ -173,7 +178,6 @@ def create():
 
     flash("User created")
     return redirect("/login")
-
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

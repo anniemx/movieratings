@@ -11,7 +11,8 @@
   <form action="/create_movie" method="post">
     <p>
       <label for="title">Movie:</label> <br />
-      <input type="text" name="title" id="title" maxlength="100" required />
+      <input type="text" name="title" id="title" required />
+      <!-- <input type="text" name="title" id="title" maxlength="50" required /> -->
     </p>
     <h2>Rating:</h2>
     <p>
@@ -21,7 +22,7 @@
       <input type="radio" name="rating" value="4" /> ****
       <input type="radio" name="rating" value="5" /> *****
     </p>
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" /> <!-- the session csrf token is added -->
+    <!-- <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" /> the session csrf token is added -->
     <input type="submit" value="Add"/>
   </form>
 </div>

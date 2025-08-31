@@ -4,18 +4,19 @@
 
 {% block content %}
 <div class="box">
-  <b>{{ movie.title  | show_lines }}</b>
+  <b>{{ movie.title | safe }}</b>  <!-- this is the unsafe way to also show line breaks -->
+  <!-- <b>{{ movie.title | show_lines }}</b> this is the sanitized way -->
   <p>
     <b>Rating:</b> {{ movie.rating }}
   </p>
   <p>
     <b>User:</b> <a href="/user/{{ movie.user_id }}">{{ movie.username }}</a>
   </p>
-    {% if session.user_id == movie.user_id %}
+  <!-- {% if session.user_id == movie.user_id %} -->
   <p>
     <a href="/edit_movie/{{ movie.id }}">Edit</a>
     <a href="/remove_movie/{{ movie.id }}">Delete</a>
   </p>
-  {% endif %}
+  <!-- {% endif %} -->
 </div>
 {% endblock %}

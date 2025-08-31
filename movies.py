@@ -36,9 +36,12 @@ def get_movie(movie_id):
     return result[0] if result else None
 
 def update_movie(movie_id, title, rating):
+    #vulnerable concatenated sql:
+    sql = f"UPDATE movies SET title = '{title}', rating = '{rating}' WHERE id = {movie_id}"
+    db.execute(sql)
     #use of parametres in queries
-    sql = "UPDATE movies SET title = ?, rating = ? WHERE id = ?"
-    db.execute(sql, [title, rating, movie_id])
+    #sql = "UPDATE movies SET title = ?, rating = ? WHERE id = ?"
+    #db.execute(sql, [title, rating, movie_id])
 
 def remove_movie(movie_id):
     #use of parametres in queries

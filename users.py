@@ -12,6 +12,7 @@ def get_movies(user_id):
     return db.query(sql, [user_id])
 
 def create_user(username, password):
+    #password_hash = password  # this is the unsafe password storing
     password_hash = generate_password_hash(password) #this function encrypts the password with a hash function
     sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)" #use of parametres in queries
     db.execute(sql, [username, password_hash])
