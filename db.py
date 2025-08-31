@@ -7,10 +7,10 @@ def get_connection():
     con.row_factory = sqlite3.Row
     return con
 
-def execute(sql, params=[]): #params=[] for safe execution
+def execute(sql): #params=[] for safe execution
     con = get_connection()
     #params
-    result = con.execute(sql, params) 
+    result = con.execute(sql) 
     con.commit()
     g.last_insert_id = result.lastrowid
     con.close()
@@ -23,3 +23,4 @@ def query(sql, params=[]):
     result = con.execute(sql, params).fetchall()
     con.close()
     return result
+
